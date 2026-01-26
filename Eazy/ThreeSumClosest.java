@@ -1,20 +1,19 @@
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class ThreeSumClosest {
     public int threeSumClosest(int[] nums, int target) {
         Arrays.sort(nums);
-        int[][] minGaps = new int[nums.length-2][2]; // the second place stores the absolute of the first place
+        int minGap = Integer.MAX_VALUE;
         for (int i=0; i<nums.length-2; i++) { // The i-th value is the smallest among the triplet
             int l = i+1;
             int r = nums.length-1;
-            int minGap = Integer.MAX_VALUE;
-            int abs_minGap = Integer.MAX_VALUE;
+            int i_minGap = Integer.MAX_VALUE;
             while (l<r) {
                 int gap = nums[i] + nums[l] + nums[r] - target;
-                int abs_gap = Math.abs(gap);
-                if (abs_gap < abs_minGap) {
-                    minGap = gap;
-                    abs_minGap = abs_gap;
+                if (Math.abs(gap) < Math.abs(i_minGap)) {
+                    i_minGap = gap;
+                    if (i_minGap == 0) return target;
                 }
                 if (nums[l]+nums[r] < target-nums[i]) {
                     l++;
@@ -22,12 +21,11 @@ public class ThreeSumClosest {
                     r--;
                 }
             }
-            minGaps[i][0] = minGap;
-            minGaps[i][1] = abs_minGap;
+            if (Math.abs(i_minGap) < Math.abs(minGap)) {
+                minGap = i_minGap;
+            }
         }
-        Arrays.sort(minGaps, (a, b) -> Integer.compare(a[1], b[1]));
-        System.out.println(Arrays.deepToString(minGaps));
-        return minGaps[0][0] + target;
+        return minGap + target;
     }
     public static void main(String[] args) {
         ThreeSumClosest sol = new ThreeSumClosest();

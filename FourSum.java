@@ -12,7 +12,7 @@ import java.util.HashSet;
             Set<String> strSet = new HashSet<>();
             for (int m=0; m<nums.length-3; m++) {
                 for (int n=m+1; n<nums.length-2; n++) {
-                    int twoSumTarget = target - nums[m] - nums[n];
+                    long twoSumTarget = (long)target - nums[m] - nums[n]; // avoid overflow
                     int i = n+1;
                     int j = nums.length-1;
                     while (i<j) {
